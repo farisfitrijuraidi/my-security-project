@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const authRoutes = require("./routes/auth");
 
 const app = express();
 
@@ -10,6 +11,7 @@ const app = express();
 app.use(cors());
 // This allows the server to read JSON data sent in a request.
 app.use(express.json());
+app.use("/api/auth", authRoutes);
 
 // The Connection Logic: Connecting your server to the MongoDB Atlas cloud.
 mongoose
