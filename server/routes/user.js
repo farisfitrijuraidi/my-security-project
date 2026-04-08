@@ -1,19 +1,26 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
+const auth = require("../middleware/auth"); // Import our new security gate
 
-// VULNERABLE ROUTE: This is the IDOR "hole"
-// It takes an ID from the URL and returns that user's data without any permission checks.
-router.get("/profile/:id", async (req, res) => {
+// SECURE ROUTE: The IDOR Mitigation
+router.get("/profile/:id", auth, async (req, res) => {
   try {
-    // We find the user by the ID provided in the web address (URL)
-    const user = await User.findById(req.params.id).select("-password");
+    // 1. SECURITY CHECK: Is the logged-in user the owner of this profile?
+    // We compare the ID from the token (req.user.id) with the ID in the URL (req.params.id)
+    if (req.user.id !== req.params.id && req.user.role !== "admin") {
+      return res
+        .status(403)
+        .json({
+          message: "Access Denied: You cannot view other students profiles",
+        });
+    }
 
+    const user = await User.findById(req.params.id).select("-password");
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // This is the mistake: We just send the data back to whoever asked for it!
     res.json(user);
   } catch (err) {
     console.error(err.message);
