@@ -1,3 +1,4 @@
+import LabInstructions from '../components/LabInstructions';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -31,7 +32,12 @@ function Profile() {
   if (!userData) return <div>Loading student profile...</div>;
 
   return (
-    <div className="profile-container">
+    <div className="profile-container" style={{ maxWidth: '800px', margin: '0 auto', padding: '20px' }}>
+      <LabInstructions
+        title="Student Profile"
+        mission="View your student profile information."
+        hint="The ID in the URL determines which user's profile is displayed. Try changing it to see if you can access other users' profiles!"
+      />
       <h2>Student Profile Page</h2>
       <div className="profile-card" style={{ border: '1px solid #ccc', padding: '20px', borderRadius: '8px' }}>
         <p><strong>Username:</strong> {userData.username}</p>
