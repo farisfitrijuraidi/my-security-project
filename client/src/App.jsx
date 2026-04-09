@@ -1,3 +1,4 @@
+import SearchLab from './pages/SearchLab';
 import Profile from './pages/Profile';
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -12,6 +13,7 @@ function App() {
           {/* This tells the browser: if the address is just '/', show the Dashboard page */}
           <Route path="/" element={<Dashboard />} />
           <Route path="/profile/:id" element={<Profile />} />
+          <Route path="/lab/sqli" element={<SearchLab />} />
           {/* This is where we will add your IDOR lab page very soon! */}
         </Routes>
       </div>

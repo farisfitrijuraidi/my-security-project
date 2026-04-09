@@ -26,15 +26,20 @@ router.get("/profile/:id", auth, async (req, res) => {
   }
 });
 
-// VULNERABLE SEARCH: This is the NoSQL Injection "hole"
+// SECURE SEARCH: The NoSQL Injection Mitigation
 router.post("/search", async (req, res) => {
   try {
-    // The "query" comes from the student's search bar
     const query = req.body.query;
 
-    // This is the mistake: We pass the object directly into the find command!
-    const users = await User.find({ username: query }).select("-password");
+    // THE FIX: Type Validation
+    // We check if the input is strictly a text string. If it is an object, we block it.
+    if (typeof query !== "string") {
+      return res
+        .status(400)
+        .json({ message: "Security Alert: Invalid search format. Text only." });
+    }
 
+    const users = await User.find({ username: query }).select("-password");
     res.json(users);
   } catch (err) {
     console.error(err.message);
