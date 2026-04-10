@@ -1,3 +1,4 @@
+import DOMPurify from 'dompurify';
 import LabInstructions from '../components/LabInstructions';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -33,22 +34,28 @@ function Profile() {
 
   return (
     <div className="profile-container" style={{ maxWidth: '800px', margin: '0 auto', padding: '20px' }}>
-      <LabInstructions
-        title="Student Profile"
-        mission="View your student profile information."
-        hint="The ID in the URL determines which user's profile is displayed. Try changing it to see if you can access other users' profiles!"
+      <LabInstructions 
+        title="Lab 3: Stored XSS"
+        mission="Someone has hidden malicious code in their profile bio. If you view their profile, their code will run in YOUR browser. Can you find the infected profile?"
+        hint="Look for the 'About Me' section. XSS usually triggers a popup alert or tries to steal information from your browser's local storage."
       />
-      <h2>Student Profile Page</h2>
-      <div className="profile-card" style={{ border: '1px solid #ccc', padding: '20px', borderRadius: '8px' }}>
+
+      <h2>Student Profile View</h2>
+      <div className="profile-card" style={{ border: '1px solid #ccc', padding: '20px', borderRadius: '8px', backgroundColor: '#f9f9f9' }}>
         <p><strong>Username:</strong> {userData.username}</p>
         <p><strong>Email:</strong> {userData.email}</p>
         <p><strong>Role:</strong> {userData.role}</p>
         <p><strong>Database ID:</strong> {id}</p>
+        
+        <hr style={{ margin: '20px 0' }} />
+        
+        <h3>About Me:</h3>
+        {/* VULNERABLE CODE: This allows raw JavaScript to execute! */}
+        <div 
+          className="bio-content" 
+          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(userData.bio) }} 
+        />
       </div>
-      
-      <p style={{ marginTop: '20px', backgroundColor: '#f9f9f9', padding: '10px' }}>
-        <em>Hint for the lab: Look at the ID in your browser's address bar. What happens if you change one character?</em>
-      </p>
     </div>
   );
 }

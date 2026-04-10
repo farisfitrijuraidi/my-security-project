@@ -47,4 +47,25 @@ router.post("/search", async (req, res) => {
   }
 });
 
+// VULNERABLE ROUTE: Stored XSS endpoint
+router.put("/bio", auth, async (req, res) => {
+  try {
+    // We grab the text exactly as the user typed it
+    const newBio = req.body.bio;
+
+    // We find the logged-in user by their token ID and update their bio
+    // The '{ new: true }' part just tells MongoDB to send back the updated data
+    const user = await User.findByIdAndUpdate(
+      req.user.id,
+      { bio: newBio },
+      { new: true },
+    ).select("-password");
+
+    res.json(user);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 module.exports = router;
