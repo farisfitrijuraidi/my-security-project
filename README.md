@@ -42,20 +42,46 @@ You will need Node.js installed on your system and a free MongoDB Atlas cluster.
 
 ### 1. Clone the Repository
 
-````bash
+```bash
 git clone [https://github.com/yourusername/your-repo-name.git](https://github.com/yourusername/your-repo-name.git)
 cd your-repo-name
+```
 
 ### 2. Set Up the Backend
+
 ```bash
 cd server
 npm install
+```
 
 Create a file named `.env` in the server directory and add your private connection details:
+
+```bash
 MONGO_URI=your_mongodb_connection_string_here
 jwtSecret=your_highly_secure_random_string
+```
 
 Start the backend server:
+
 ```bash
 node index.js
-````
+```
+
+The server should display a message confirming it is running on port 5000 and connected to MongoDB.
+
+### 3. Set Up the Frontend
+
+Open a new terminal window, navigate to the client folder, and install the dependencies.
+
+```bash
+cd client
+npm install
+```
+
+Start the React development server:
+
+```bash
+npm run dev
+```
+
+The application will now be accessible in your web browser at `http://localhost:5173`.
