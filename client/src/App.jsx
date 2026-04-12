@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
 import SearchLab from './pages/SearchLab';
+import Login from './pages/Login';
 
 function App() {
   return (
@@ -12,6 +13,8 @@ function App() {
       <div className="App">
         {/* The Routes block acts like a switchboard, picking the right page to show */}
         <Routes>
+          {/* The Login Page */}
+          <Route path="/login" element={<Login />} />
           {/* The Homepage */}
           <Route path="/" element={<Dashboard />} />
           

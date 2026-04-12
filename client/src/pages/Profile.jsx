@@ -1,23 +1,35 @@
 import DOMPurify from 'dompurify';
 import LabInstructions from '../components/LabInstructions';
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 function Profile() {
-  // useParams is a tool that grabs the "id" part from the web address
   const { id } = useParams();
+  const navigate = useNavigate(); // This tool lets us change pages programmatically
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState('');
+  const [inputId, setInputId] = useState('');
 
   useEffect(() => {
-    // This function runs as soon as the page loads
     const fetchProfile = async () => {
+      if (!id) return; // Stop if there is no ID in the URL
+
       try {
-        const response = await fetch(`http://localhost:5000/api/users/profile/${id}`);
+        // Grab the token from the browser's memory (Local Storage)
+        const token = localStorage.getItem('token');
+        
+        // Send the token in the headers!
+        const response = await fetch(`http://localhost:5000/api/users/profile/${id}`, {
+          method: 'GET',
+          headers: {
+            'x-auth-token': token
+          }
+        });
         const data = await response.json();
 
         if (response.ok) {
           setUserData(data);
+          setError('');
         } else {
           setError(data.message || 'Failed to fetch profile');
         }
@@ -27,17 +39,40 @@ function Profile() {
     };
 
     fetchProfile();
-  }, [id]); // This runs again if the ID in the address bar changes
+  }, [id]);
 
-  if (error) return <div style={{ color: 'red' }}>{error}</div>;
-  if (!userData) return <div>Loading student profile...</div>;
+  // If the URL is just '/profile' with no ID, show an input box
+  if (!id) {
+    return (
+      <div className="profile-container" style={{ maxWidth: '800px', margin: '0 auto', padding: '20px' }}>
+        <h2>Profile Viewer</h2>
+        <p>Please enter a Database ID to view a profile.</p>
+        <input 
+          type="text" 
+          placeholder="Paste ID here..." 
+          value={inputId}
+          onChange={(e) => setInputId(e.target.value)}
+          style={{ padding: '10px', width: '60%', marginRight: '10px' }}
+        />
+        <button 
+          onClick={() => navigate(`/profile/${inputId}`)}
+          style={{ padding: '10px 20px', cursor: 'pointer' }}
+        >
+          View Profile
+        </button>
+      </div>
+    );
+  }
+
+  if (error) return <div style={{ color: 'red', marginTop: '20px' }}>{error}</div>;
+  if (!userData) return <div style={{ marginTop: '20px' }}>Loading student profile...</div>;
 
   return (
     <div className="profile-container" style={{ maxWidth: '800px', margin: '0 auto', padding: '20px' }}>
       <LabInstructions 
-        title="Lab 3: Stored XSS"
-        mission="Someone has hidden malicious code in their profile bio. If you view their profile, their code will run in YOUR browser. Can you find the infected profile?"
-        hint="Look for the 'About Me' section. XSS usually triggers a popup alert or tries to steal information from your browser's local storage."
+        title="Lab 1 & 3: IDOR and Stored XSS"
+        mission="Explore the profile. Can you view someone else's private data, or find a hidden malicious script?"
+        hint="For IDOR, try changing the ID in the URL. For XSS, look closely at the 'About Me' section."
       />
 
       <h2>Student Profile View</h2>
@@ -50,7 +85,6 @@ function Profile() {
         <hr style={{ margin: '20px 0' }} />
         
         <h3>About Me:</h3>
-        {/* VULNERABLE CODE: This allows raw JavaScript to execute! */}
         <div 
           className="bio-content" 
           dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(userData.bio) }} 
