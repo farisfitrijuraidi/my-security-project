@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import LabInstructions from '../components/LabInstructions';
+import { useNavigate } from 'react-router-dom';
 
 function SearchLab() {
+  const navigate = useNavigate();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [error, setError] = useState('');
@@ -41,6 +43,21 @@ function SearchLab() {
 
   return (
     <div className="lab-container" style={{ maxWidth: '800px', margin: '0 auto', padding: '20px' }}>
+      <button 
+        onClick={() => navigate('/')} 
+        style={{ 
+          padding: '8px 15px', 
+          backgroundColor: '#6c757d', 
+          color: 'white', 
+          border: 'none', 
+          borderRadius: '4px', 
+          cursor: 'pointer', 
+          marginBottom: '20px',
+          fontWeight: 'bold'
+        }}
+      >
+        ← Back to Dashboard
+      </button>
       <LabInstructions 
         title="Lab 2: NoSQL Injection"
         mission="Use the search bar to find information about other students. Can you find a way to see EVERYONE in the database at once?"

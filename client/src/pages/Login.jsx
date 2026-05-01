@@ -28,6 +28,7 @@ function Login() {
       if (response.ok) {
         // We successfully logged in! Save the token to local storage automatically.
         localStorage.setItem('token', data.token);
+        localStorage.setItem('username', data.user.username);
         
         // Instantly redirect the participant to the dashboard to start the labs
         navigate('/');

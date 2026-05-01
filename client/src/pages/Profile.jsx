@@ -69,13 +69,28 @@ function Profile() {
 
   return (
     <div className="profile-container" style={{ maxWidth: '800px', margin: '0 auto', padding: '20px' }}>
+      <button 
+        onClick={() => navigate('/')} 
+        style={{ 
+          padding: '8px 15px', 
+          backgroundColor: '#6c757d', 
+          color: 'white', 
+          border: 'none', 
+          borderRadius: '4px', 
+          cursor: 'pointer', 
+          marginBottom: '20px',
+          fontWeight: 'bold'
+        }}
+      >
+        ← Back to Dashboard
+      </button>
       <LabInstructions 
-        title="Lab 1 & 3: IDOR and Stored XSS"
-        mission="Explore the profile. Can you view someone else's private data, or find a hidden malicious script?"
-        hint="For IDOR, try changing the ID in the URL. For XSS, look closely at the 'About Me' section."
+        title="Lab 1: Insecure Direct Object Reference (IDOR)"
+        mission="You have intercepted the database ID for the platform administrator. Can you manipulate the web application to view her private data?"
+        hint="Look at the web address bar. Try replacing your ID with the Admin's ID."
       />
 
-      <h2>Student Profile View</h2>
+      <h2>Profile View</h2>
       <div className="profile-card" style={{ border: '1px solid #ccc', padding: '20px', borderRadius: '8px', backgroundColor: '#f9f9f9' }}>
         <p><strong>Username:</strong> {userData.username}</p>
         <p><strong>Email:</strong> {userData.email}</p>
@@ -90,6 +105,7 @@ function Profile() {
           dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(userData.bio) }} 
         />
       </div>
+      
     </div>
   );
 }
