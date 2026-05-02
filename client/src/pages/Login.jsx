@@ -26,16 +26,22 @@ function Login() {
       const data = await response.json();
 
       if (response.ok) {
-        // We successfully logged in! Save the token to local storage automatically.
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('username', data.username);
-        
-        // Instantly redirect the participant to the dashboard to start the labs
-        navigate('/');
+      // We successfully logged in! Save the token to local storage automatically.
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('username', data.username);
+
+      // The Routing Trick: Check who just logged in
+      if (data.username.startsWith('participant')) {
+        // Send real participants to the pre-test
+        navigate('/pre-test');
       } else {
-        // Show an error if they typed the wrong password
-        setError(data.message || 'Login failed. Please check your credentials.');
+        // Send you, Hacker Bob, and Admin Alice straight to the dashboard
+        navigate('/'); 
       }
+    } else {
+      // Show an error if they typed the wrong password
+      setError(data.message || 'Login failed. Please check your credentials.');
+    }
     } catch (err) {
       setError('Server error. Is your backend running?');
     }
