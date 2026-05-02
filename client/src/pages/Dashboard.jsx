@@ -57,7 +57,7 @@ function Dashboard() {
   };
 
   return (
-    <div className="dashboard-container" style={{ maxWidth: '800px', margin: '0 auto', padding: '20px' }}>
+    <div className="dashboard-container" style={{ maxWidth: '800px', margin: '40px auto', padding: '20px' }}>
       
       {/* Header section with the new Logout button */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
