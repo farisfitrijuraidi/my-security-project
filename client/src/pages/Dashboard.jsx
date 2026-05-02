@@ -105,6 +105,17 @@ function Dashboard() {
         </div>
 
       </div>
+      {/* The Final Experiment Step */}
+      {currentName.startsWith('participant') && (
+        <div style={{ marginTop: '50px', paddingTop: '20px', borderTop: '2px dashed #ccc', textAlign: 'center' }}>
+          <h3>Finished all the labs?</h3>
+          <Link to="/post-test">
+            <button style={{ padding: '15px 30px', backgroundColor: '#28a745', color: 'white', border: 'none', borderRadius: '5px', fontSize: '18px', fontWeight: 'bold', cursor: 'pointer' }}>
+              Take Post-Test & Finish Experiment
+            </button>
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

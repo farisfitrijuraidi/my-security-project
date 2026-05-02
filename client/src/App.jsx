@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PreTest from './pages/PreTest';
+import PostTest from './pages/PostTest';
 
 // Page Imports
 import Dashboard from './pages/Dashboard';
@@ -20,6 +21,7 @@ function App() {
           {/* The Homepage */}
           <Route path="/" element={<Dashboard />} />
           <Route path="/pre-test" element={<PreTest />} />
+          <Route path="/post-test" element={<PostTest/>} />
           
           {/* Lab 1: The Profile Pages */}
           {/* This route catches the standard click from the dashboard */}
