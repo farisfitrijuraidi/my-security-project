@@ -65,7 +65,10 @@ router.post("/login", async (req, res) => {
       { expiresIn: "1h" }, // The pass expires in one hour for better security
       (err, token) => {
         if (err) throw err;
-        res.json({ token });
+        res.json({
+          token: token,
+          username: user.username, //
+        });
       },
     );
   } catch (err) {

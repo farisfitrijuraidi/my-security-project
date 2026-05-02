@@ -13,12 +13,26 @@ function Dashboard() {
     }
   }, [navigate]);
 
-  // The Logout Function
-  const handleLogout = () => {
-    // 1. Delete the digital pass
-    localStorage.removeItem('token');
-    // 2. Kick the user back to the login screen
-    navigate('/login');
+  // The Upgraded Logout Function
+  const handleLogout = async () => {
+    try {
+      // 1. Tell the backend to scrub the database clean
+      await fetch('http://localhost:5000/api/users/reset-labs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      // 2. Delete the digital pass from the browser's vault
+      localStorage.removeItem('token');
+      localStorage.removeItem('username'); // We clear the saved name too!
+
+      // 3. Kick the user back to the login screen
+      navigate('/login');
+    } catch (error) {
+      console.error('Failed to logout safely:', error);
+    }
   };
 
   // Styles for the lab buttons
