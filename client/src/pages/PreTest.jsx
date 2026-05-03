@@ -6,6 +6,7 @@ function PreTest() {
   
   // State to control which screen the user sees
   const [hasStarted, setHasStarted] = useState(false);
+  const [hasConsented, setHasConsented] = useState(false); 
   const [answers, setAnswers] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -78,7 +79,7 @@ function PreTest() {
         { label: "Alice's administrator account does not have a strong enough password.", value: "A" },
         { label: "The web application pulled Bob's bio from the database and rendered it as executable HTML instead of plain text.", value: "B", isCorrect: true },
         { label: "Bob sent a targeted, malicious email directly to Alice's inbox.", value: "C" },
-        { label: "The SVG tag contains a traditional computer virus that infected the entire backend server.", value: "D" }
+        { label: "The IMG tag contains a traditional computer virus that infected the entire backend server.", value: "D" }
       ]
     },
     {
@@ -175,30 +176,58 @@ function PreTest() {
     }
   };
 
-  // View 1: The Welcome Screen
+  // View 1: The Welcome Screen with Consent
   if (!hasStarted) {
     return (
       <div style={{ maxWidth: '800px', margin: '40px auto', padding: '30px', backgroundColor: '#f9f9f9', borderRadius: '8px', border: '1px solid #ddd' }}>
-        <h1 style={{ color: '#004085' }}>Welcome to the Security Experiment</h1>
+        <h1 style={{ color: '#004085', marginTop: '0' }}>Welcome to the Security Experiment</h1>
         <p style={{ fontSize: '18px', lineHeight: '1.6' }}>
           Thank you for participating in this research study. Before you begin the interactive hacking labs, we need to establish a baseline of your current knowledge.
         </p>
         
         <div style={{ backgroundColor: '#fff', padding: '20px', borderRadius: '5px', marginTop: '20px', borderLeft: '5px solid #004085' }}>
           <h3 style={{ marginTop: '0' }}>Important Information:</h3>
-          <ul style={{ lineHeight: '1.8' }}>
+          <ul style={{ lineHeight: '1.8', margin: '0', paddingLeft: '20px' }}>
             <li><strong>This is not an exam.</strong> We are testing the effectiveness of the platform, not your personal skills.</li>
-            <li>Your results are completely anonymous and linked only to your participant ID.</li>
+            <li>Your results are completely anonymous and linked only to your generic participant ID.</li>
             <li>Please answer the following 9 questions to the best of your ability.</li>
             <li>Do not use external search engines (like Google) during this test.</li>
           </ul>
         </div>
 
+        {/* The Digital Consent Checkbox */}
+        <div style={{ marginTop: '30px', padding: '15px', backgroundColor: '#e9ecef', borderRadius: '5px', display: 'flex', alignItems: 'flex-start' }}>
+          <input 
+            type="checkbox" 
+            id="consent-box"
+            checked={hasConsented}
+            onChange={(e) => setHasConsented(e.target.checked)}
+            style={{ marginTop: '5px', marginRight: '15px', width: '20px', height: '20px', cursor: 'pointer' }}
+          />
+          <label htmlFor="consent-box" style={{ fontSize: '16px', lineHeight: '1.5', cursor: 'pointer', userSelect: 'none' }}>
+            <strong>Informed Consent:</strong> I have read the information above. I understand the purpose of this study and I voluntarily consent to my anonymous test scores being recorded and used for academic research purposes.
+          </label>
+        </div>
+
+        {/* The Dynamic Start Button */}
         <button 
           onClick={() => setHasStarted(true)}
-          style={{ padding: '12px 25px', backgroundColor: '#28a745', color: '#fff', border: 'none', borderRadius: '5px', fontSize: '18px', fontWeight: 'bold', cursor: 'pointer', marginTop: '30px', width: '100%' }}
+          disabled={!hasConsented}
+          style={{ 
+            padding: '15px 25px', 
+            backgroundColor: hasConsented ? '#28a745' : '#6c757d', // Green if ticked, grey if not
+            color: '#fff', 
+            border: 'none', 
+            borderRadius: '5px', 
+            fontSize: '18px', 
+            fontWeight: 'bold', 
+            cursor: hasConsented ? 'pointer' : 'not-allowed', 
+            marginTop: '25px', 
+            width: '100%',
+            transition: 'background-color 0.3s'
+          }}
         >
-          I Understand, Start Pre-Test
+          {hasConsented ? 'I Consent, Start Pre-Test' : 'Please tick the consent box to begin'}
         </button>
       </div>
     );

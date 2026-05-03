@@ -102,7 +102,7 @@ function Profile() {
         <h3>About Me:</h3>
         <div 
           className="bio-content" 
-          dangerouslySetInnerHTML={{ __html: userData.bio }} 
+          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(userData.bio) }} 
         />
       </div>
       

@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const Result = require("../models/Result");
 
 // --- REGISTRATION ROUTE ---
 router.post("/register", async (req, res) => {
@@ -49,6 +50,13 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Invalid Credentials" });
     }
 
+    // --- NEW CODE: Check Test History ---
+    // We ask MongoDB if this specific user has already submitted a pre-test
+    const existingTest = await Result.findOne({
+      username: user.username,
+      testType: "pre-test",
+    });
+
     // 3. Create the "Security Pass" (JWT)
     // The payload is the data we store inside the token, such as the user's unique ID and role.
     const payload = {
@@ -65,9 +73,11 @@ router.post("/login", async (req, res) => {
       { expiresIn: "1h" }, // The pass expires in one hour for better security
       (err, token) => {
         if (err) throw err;
+        // We add our new true/false flag into the final response sent to React
         res.json({
           token: token,
-          username: user.username, //
+          username: user.username,
+          hasCompletedPreTest: !!existingTest,
         });
       },
     );

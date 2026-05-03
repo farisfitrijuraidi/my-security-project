@@ -30,12 +30,12 @@ function Login() {
       localStorage.setItem('token', data.token);
       localStorage.setItem('username', data.username);
 
-      // The Routing Trick: Check who just logged in
-      if (data.username.startsWith('participant')) {
-        // Send real participants to the pre-test
+      // The Smart Routing Trick: Check identity AND test history
+      if (data.username.startsWith('participant') && data.hasCompletedPreTest === false) {
+        // Only send them to the pre-test if they are a participant AND haven't taken it yet
         navigate('/pre-test');
       } else {
-        // Send you, Hacker Bob, and Admin Alice straight to the dashboard
+        // Send Bob, Alice, AND returning participants straight to the dashboard
         navigate('/'); 
       }
     } else {
