@@ -14,19 +14,13 @@ function Dashboard() {
   }, [navigate]);
 
   // The Upgraded Logout Function
-  const handleLogout = async () => {
+  const handleLogout = () => {
     try {
-      // 1. Tell the backend to scrub the database clean
-      await fetch('http://localhost:5000/api/users/reset-labs', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-
       // 2. Delete the digital pass from the browser's vault
       localStorage.removeItem('token');
       localStorage.removeItem('username'); // We clear the saved name too!
+      localStorage.removeItem('lab1Step');
+      localStorage.removeItem('lab2SearchStep');
 
       // 3. Kick the user back to the login screen
       navigate('/login');

@@ -34,11 +34,11 @@ router.post("/search", async (req, res) => {
 
     // THE FIX: Type Validation
     // We check if the input is strictly a text string. If it is an object, we block it.
-    // if (typeof query !== "string") {
-    //   return res
-    //     .status(400)
-    //     .json({ message: "Security Alert: Invalid search format. Text only." });
-    // }
+    if (typeof query !== "string") {
+      return res
+        .status(400)
+        .json({ message: "Security Alert: Invalid search format. Text only." });
+    }
 
     const users = await User.find({ username: query }).select("-password");
     res.json(users);
@@ -81,9 +81,9 @@ router.post("/reset-labs", async (req, res) => {
     );
 
     // 2. Mass Reset all standard participants at once!
-    // This finds everyone with the 'student' role, except Bob, and wipes their bio clean.
+    // This finds everyone with the 'student' role and wipes their bio clean.
     await User.updateMany(
-      { role: "student", username: { $ne: "hacker_bob" } },
+      { role: "student" },
       { bio: "Hello, I am a new student!" },
     );
 
@@ -117,6 +117,26 @@ router.post("/submit-test", async (req, res) => {
   } catch (error) {
     console.error("Error saving test result:", error);
     res.status(500).json({ message: "Failed to save test data" });
+  }
+});
+
+// --- NEW ROUTE: Get the current user's profile ---
+// Note: Replace 'auth' with whatever your security middleware function is named in this file!
+router.get("/profile", auth, async (req, res) => {
+  try {
+    // We use the ID safely extracted from the x-auth-token by your middleware
+    // We also use .select('-password') so we never accidentally send the password hash to the frontend
+    const user = await User.findById(req.user.id).select("-password");
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Send the user's data (including the bio) back to React
+    res.json(user);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
   }
 });
 

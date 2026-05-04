@@ -1,11 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LabInstructions from '../components/LabInstructions';
 
 function XssProfile() {
   const navigate = useNavigate();
   const [bioInput, setBioInput] = useState('');
+  
+  // We keep the default text, but it will be instantly overwritten if they have a real bio
   const [displayBio, setDisplayBio] = useState('Write something about yourself!');
+
+  // --- NEW CODE: The On-Load Fetch Logic ---
+  useEffect(() => {
+    const fetchRealBio = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) return; // If there is no token, just stop.
+
+        // Ask the database for this specific user's profile
+        const response = await fetch('http://localhost:5000/api/users/profile', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-auth-token': token // Using your exact security header
+          }
+        });
+
+        if (response.ok) {
+          const userData = await response.json();
+          // Overwrite the default text with the actual database content!
+          if (userData.bio) {
+            setDisplayBio(userData.bio);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching bio on load:', error);
+      }
+    };
+
+    fetchRealBio();
+  }, []); // The empty brackets mean "only run this once when the page loads"
+  // --- END NEW CODE ---
 
   // This function sends the XSS payload to your backend
   const handleUpdateBio = async (e) => {
@@ -54,8 +88,16 @@ function XssProfile() {
 
       <LabInstructions 
         title="Lab 3: Stored Cross-Site Scripting (XSS)"
-        mission="Update your profile bio with a malicious JavaScript payload. Can you force the browser to execute an alert box when the page loads?"
-        hint="Try a standard image payload if the script tag gets blocked."
+        scenario="We suspect the platform's profile system does not sanitise user input. If true, an attacker could plant a malicious script in their bio that attacks anyone who views it."
+        mission="Weaponise your own profile bio and test it against an administrator."
+        steps={[
+          "Type the payload <svg onload=\"alert('Hacked!')\"> into your Update Bio box and click Save.",
+          "Log out of your account.",
+          "Log in using the administrator credentials (alice@staff.unikl.edu.my / Password123!).",
+          "Go to Lab 1 and search for your original Participant ID. If an alert box pops up, the exploit is successful!",
+          "Finally, open VS Code, locate the XssProfile.jsx file, and change the dangerouslySetInnerHTML code to standard text rendering to fix the bug."
+        ]}
+        hint="If the standard script tag is blocked, try using an image tag that triggers an error, like <img src=x onerror=alert('Hacked!')>."
       />
 
       <h2>Edit Your Profile</h2>
