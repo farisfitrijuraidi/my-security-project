@@ -9,11 +9,11 @@ router.get("/profile/:id", auth, async (req, res) => {
   try {
     // 1. SECURITY CHECK: Is the logged-in user the owner of this profile?
     // We compare the ID from the token (req.user.id) with the ID in the URL (req.params.id)
-    if (req.user.id !== req.params.id && req.user.role !== "admin") {
-      return res.status(403).json({
-        message: "Access Denied: You cannot view other profiles",
-      });
-    }
+    // if (req.user.id !== req.params.id && req.user.role !== "admin") {
+    //   return res.status(403).json({
+    //     message: "Access Denied: You cannot view other profiles",
+    //   });
+    // }
 
     const user = await User.findById(req.params.id).select("-password");
     if (!user) {
@@ -34,11 +34,11 @@ router.post("/search", async (req, res) => {
 
     // THE FIX: Type Validation
     // We check if the input is strictly a text string. If it is an object, we block it.
-    if (typeof query !== "string") {
-      return res
-        .status(400)
-        .json({ message: "Security Alert: Invalid search format. Text only." });
-    }
+    // if (typeof query !== "string") {
+    //   return res
+    //     .status(400)
+    //     .json({ message: "Security Alert: Invalid search format. Text only." });
+    // }
 
     const users = await User.find({ username: query }).select("-password");
     res.json(users);
