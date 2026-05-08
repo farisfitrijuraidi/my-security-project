@@ -222,7 +222,7 @@ function Profile() {
               <div style={{ backgroundColor: '#e0f7fa', padding: '12px', borderRadius: '4px', border: '1px solid #b2ebf2', marginBottom: '15px' }}>
                 <strong style={{ color: '#006064' }}>Teaching Note:</strong>
                 <p style={{ margin: '5px 0 10px 0', fontSize: '0.9rem', color: '#00838f' }}>
-                  By verifying that your secure login token matches the ID requested in the URL, you have successfully prevented unauthorized users from accessing data they do not own. This is the core defence against IDOR!
+                  By verifying that your <strong>secure login token matches the ID requested</strong> in the URL, you have successfully prevented unauthorized users from accessing data they do not own. This is the core defence against IDOR!
                 </p>
                 <p style={{ margin: '0', fontSize: '0.9rem', color: '#00838f' }}>
                   <strong>Real-World Impact:</strong> IDOR is highly dangerous. If an attacker uses this flaw to view an administrator's profile, they could steal massive amounts of critical information, exposing the personal and confidential data of every single user on the platform.

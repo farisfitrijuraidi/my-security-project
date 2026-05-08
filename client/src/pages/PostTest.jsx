@@ -167,9 +167,10 @@ function PostTest() {
         headers: { 'Content-Type': 'application/json' }
       });
 
-      // 3. Clear local storage and kick them to the login screen
-      localStorage.removeItem('token');
-      localStorage.removeItem('username');
+      // 3. NUCLEAR WIPE: Clear all local storage (tokens, usernames, and all lab tutorial steps)
+      localStorage.clear();
+      
+      // 4. Kick them to the login screen
       navigate('/login');
 
     } catch (error) {

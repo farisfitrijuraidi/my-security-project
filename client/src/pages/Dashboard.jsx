@@ -18,7 +18,7 @@ function Dashboard() {
     try {
       // 2. Delete the digital pass from the browser's vault
       localStorage.removeItem('token');
-      localStorage.removeItem('username'); // We clear the saved name too!
+      localStorage.removeItem('username'); 
       localStorage.removeItem('lab1Step');
       localStorage.removeItem('lab2SearchStep');
 
