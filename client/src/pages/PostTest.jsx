@@ -16,7 +16,7 @@ function PostTest() {
     return shuffled;
   };
 
-  // The 9 Post-Test Questions
+  // The 12 Post-Test Questions
   const rawQuestions = [
     {
       id: 1,

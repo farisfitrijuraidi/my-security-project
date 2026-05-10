@@ -120,8 +120,7 @@ router.post("/submit-test", async (req, res) => {
   }
 });
 
-// --- NEW ROUTE: Get the current user's profile ---
-// Note: Replace 'auth' with whatever your security middleware function is named in this file!
+// --- Get the current user's profile ---
 router.get("/profile", auth, async (req, res) => {
   try {
     // We use the ID safely extracted from the x-auth-token by your middleware

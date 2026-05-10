@@ -11,7 +11,7 @@ const resultSchema = new mongoose.Schema({
   },
   score: {
     type: Number,
-    required: true, // Their score out of 9
+    required: true, // Their score out of 12
   },
   timestamp: {
     type: Date,

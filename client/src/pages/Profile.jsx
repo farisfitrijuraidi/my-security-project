@@ -9,7 +9,7 @@ function Profile() {
   const [error, setError] = useState('');
   const [inputId, setInputId] = useState('');
 
-  // --- NEW: Persistent State for the Guided Tour ---
+  // --- Persistent State for the Guided Tour ---
   // We check localStorage first. If a saved step exists, we use it. Otherwise, default to 1.
   const [tutorialStep, setTutorialStep] = useState(() => {
     const savedStep = localStorage.getItem('lab1Step');
@@ -130,7 +130,7 @@ function Profile() {
               <hr style={{ margin: '20px 0' }} />
               
               <h3>About Me:</h3>
-              {/* Note: I intentionally kept this vulnerable so Lab 3 (XSS) still works here! */}
+              {/* Note: This is intentionally kept vulnerable so Lab 3 (XSS) still works here! */}
               <div 
                 className="bio-content" 
                 dangerouslySetInnerHTML={{ __html: userData.bio }} 

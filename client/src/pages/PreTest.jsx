@@ -20,7 +20,7 @@ function PreTest() {
     return shuffled;
   };
 
-  // The 9 Pre-Test Questions (Without the A/B/C/D labels)
+  // The 12 Pre-Test Questions (Without the A/B/C/D labels)
   const rawQuestions = [
     {
       id: 1,

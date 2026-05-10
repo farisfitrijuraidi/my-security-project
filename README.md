@@ -21,7 +21,7 @@ The platform features three core security labs, guiding users through both the e
 ### 3. Stored Cross-Site Scripting (XSS)
 
 - **The Vulnerability:** The user profile "About Me" section saves text directly to the database without filtering. The frontend React component then uses `dangerouslySetInnerHTML` to render this text, allowing attackers to permanently inject malicious JavaScript payloads that execute in the browsers of innocent visitors.
-- **The Mitigation:** We integrated the `dompurify` library to act as a sanitisation filter, scrubbing away dangerous HTML tags and scripts before the content is ever rendered on the screen.
+- **The Mitigation:** We replaced the unsafe `dangerouslySetInnerHTML` property with standard React JSX data binding, utilising the framework's native auto-escaping features to neutralise malicious scripts before they render.
 
 ## System Architecture
 
@@ -30,7 +30,7 @@ This platform is built using the MERN stack, simulating a realistic, modern sing
 - **Database:** MongoDB Atlas (NoSQL)
 - **Backend:** Node.js and Express
 - **Frontend:** React and Vite
-- **Security Libraries:** Bcrypt (password hashing), JSONWebToken (authentication), DOMPurify (input sanitisation)
+- **Security Libraries:** Bcrypt (password hashing), JSONWebToken (authentication)
 
 ## Local Installation Guide
 
@@ -43,8 +43,8 @@ You will need Node.js installed on your system and a free MongoDB Atlas cluster.
 ### 1. Clone the Repository
 
 ```bash
-git clone [https://github.com/yourusername/your-repo-name.git](https://github.com/yourusername/your-repo-name.git)
-cd your-repo-name
+git clone https://github.com/farisfitrijuraidi/my-security-project.git
+cd my-security-project
 ```
 
 ### 2. Set Up the Backend

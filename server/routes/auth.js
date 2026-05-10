@@ -37,7 +37,7 @@ router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // 1. Check if the user exists in your MongoDB
+    // 1. Check if the user exists in MongoDB
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ message: "Invalid Credentials" });
@@ -50,7 +50,7 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Invalid Credentials" });
     }
 
-    // --- NEW CODE: Check Test History ---
+    // --- Check Test History ---
     // We ask MongoDB if this specific user has already submitted a pre-test
     const existingTest = await Result.findOne({
       username: user.username,
@@ -66,11 +66,11 @@ router.post("/login", async (req, res) => {
       },
     };
 
-    // We sign the token using a secret key from your .env file
+    // We sign the token using a secret key from the .env file
     jwt.sign(
       payload,
       process.env.JWT_SECRET,
-      { expiresIn: "1h" }, // The pass expires in one hour for better security
+      { expiresIn: "1h" },
       (err, token) => {
         if (err) throw err;
         // We add our new true/false flag into the final response sent to React

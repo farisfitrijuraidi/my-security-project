@@ -24,10 +24,8 @@ function SearchLab() {
     setResults([]);
     let parsedQuery = query;
     try {
-      // If the student types valid JSON (like our exploit), turn it into a real object
       parsedQuery = JSON.parse(query);
     } catch (err) {
-      // If it fails, they just typed a normal name. Leave it as a text string.
     }
     
     try {

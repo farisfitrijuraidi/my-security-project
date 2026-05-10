@@ -5,7 +5,7 @@ function Dashboard() {
   const navigate = useNavigate();
   const currentName = localStorage.getItem('username') || 'Student';
 
-  // The Bouncer: Checks if the user is allowed here
+  // Checks if the user is allowed here
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -56,7 +56,7 @@ function Dashboard() {
       {/* Header section with the new Logout button */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         
-        {/* NEW: We wrap the title and greeting in their own div so they stack vertically */}
+        {/* Wrap the title and greeting in their own div so they stack vertically */}
         <div>
           <h1 style={{ marginTop: '0', marginBottom: '5px' }}>Educational Security Platform</h1>
           <h3 style={{ marginTop: '0', color: '#555' }}>Welcome back, {currentName}!</h3>

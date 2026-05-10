@@ -10,7 +10,7 @@ function XssProfile() {
   const [bioInput, setBioInput] = useState('');
   const [displayBio, setDisplayBio] = useState('Write something about yourself!');
 
-  // --- NEW: Persistent State & Participant ID Fetching ---
+  // --- Persistent State & Participant ID Fetching ---
   const [myUserId, setMyUserId] = useState('Loading ID...');
   const [tutorialStep, setTutorialStep] = useState(() => {
     const savedStep = localStorage.getItem('lab3Step');

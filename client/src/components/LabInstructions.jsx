@@ -28,7 +28,6 @@ function LabInstructions({ title, scenario, mission, steps, hint }) {
       <div style={{ marginBottom: '20px', backgroundColor: '#e9ecef', padding: '15px', borderRadius: '5px' }}>
         <h4 style={{ margin: '0 0 10px 0', color: '#212529' }}>Action Plan: {mission}</h4>
         <ul style={{ margin: 0, paddingLeft: '20px', lineHeight: '1.6', color: '#212529' }}>
-          {/* We use .map() to turn our array of steps into bullet points automatically */}
           {steps?.map((step, index) => (
             <li key={index} style={{ marginBottom: '8px' }}>{step}</li>
           ))}
