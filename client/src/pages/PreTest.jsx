@@ -220,7 +220,7 @@ function PreTest() {
           <ul style={{ lineHeight: '1.8', margin: '0', paddingLeft: '20px' }}>
             <li><strong>This is not an exam.</strong> We are testing the effectiveness of the platform, not your personal skills.</li>
             <li>Your results are completely anonymous and linked only to your generic participant ID.</li>
-            <li>Please answer the following 9 questions to the best of your ability.</li>
+            <li>Please answer the following 12 questions to the best of your ability.</li>
             <li>Do not use external search engines (like Google) during this test.</li>
           </ul>
         </div>

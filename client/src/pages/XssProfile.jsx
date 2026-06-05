@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import LabInstructions from '../components/LabInstructions';
 const VulnerableBio = React.memo(({ bio }) => {
   return <div dangerouslySetInnerHTML={{ __html: bio }} />;
+  // return <div>{bio}</div>;
 });
 
 function XssProfile() {
