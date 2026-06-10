@@ -11,11 +11,11 @@ The platform features three core security labs, guiding users through both the e
 ### 1. Insecure Direct Object Reference (IDOR)
 
 - **The Vulnerability:** A broken access control implementation in the profile routing logic allows an attacker to manipulate the URL and view private data belonging to other users.
-- **The Mitigation:** We implemented strict identity verification using JSON Web Token (JWT) payloads to ensure the user requesting the data is the rightful owner of the account.
+- **The Mitigation:** We implemented strict session ownership verification alongside Role-Based Access Control (RBAC) to ensure the user requesting the data is the rightful owner of the account.
 
 ### 2. NoSQL Injection
 
-- **The Vulnerability:** The student directory search API blindly accepts user input without checking the data type. This allows attackers to bypass the text search by sending malicious MongoDB query objects (like `{"$ne": ""}`), forcing the database to leak all user records.
+- **The Vulnerability:** The student directory search API blindly accepts user input without checking the data type. This allows attackers to bypass the text search by sending malicious MongoDB query objects (like `{"$ne": "null"}`), forcing the database to leak all user records.
 - **The Mitigation:** We secured the database queries by implementing strict type validation, ensuring the server rejects any incoming search request that is not a plain text string.
 
 ### 3. Stored Cross-Site Scripting (XSS)
