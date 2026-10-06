@@ -76,6 +76,7 @@ Follow these steps to run the application on your local machine.
 ```bash
 git clone [https://github.com/farisfitrijuraidi/my-security-project.git](https://github.com/farisfitrijuraidi/my-security-project.git)
 cd my-security-project
+```
 
 ### 2. Set Up the Backend
 
